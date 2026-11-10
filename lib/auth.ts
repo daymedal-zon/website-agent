@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 
 const SESSION_MAX_AGE_SECONDS = 8 * 60 * 60;
 const DEVELOPMENT_ALLOWED_HOSTS = ["localhost:*", "127.0.0.1:*"];
+const CUSTOM_DOMAIN_HOSTS = ["zonpublishing.co.uk", "www.zonpublishing.co.uk"];
 
 function getAllowedHosts(): string[] {
   if (process.env.NODE_ENV === "development") {
@@ -11,6 +12,7 @@ function getAllowedHosts(): string[] {
     process.env.VERCEL_URL,
     process.env.VERCEL_BRANCH_URL,
     process.env.VERCEL_PROJECT_PRODUCTION_URL,
+    ...CUSTOM_DOMAIN_HOSTS,
   ].filter((host): host is string => Boolean(host));
   if (deploymentHosts.length === 0) {
     throw new Error("No trusted deployment hosts are configured");
